@@ -30,7 +30,8 @@ url = st.text_input('Enter the URL of the page:', '')
 if st.button('Generate Index'):
     if url:
         index_html = create_html_index(url)
-        st.markdown(index_html, unsafe_allow_html=True)
+        # Display the HTML index in a code block
+        st.code(index_html, language='html')
     else:
         st.write('Please enter a valid URL.')
 
