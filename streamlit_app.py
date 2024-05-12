@@ -9,9 +9,9 @@ def create_html_index(url):
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Extract the base URL to append to IDs
+        # Extract the path from the URL to append to IDs
         parsed_url = urlparse(url)
-        base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
+        base_path = parsed_url.path
 
         # Searching for headings with an ID
         headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'], id=True)
@@ -21,8 +21,8 @@ def create_html_index(url):
         for heading in headings:
             id = heading['id']
             text = heading.text.strip()
-            # Create absolute URL for each link
-            link = urljoin(base_url, f'#{id}')
+            # Append the path and ID to create an explicit link
+            link = f"{base_path}#{id}"
             html_index += f'  <li><a href="{link}">{text}</a> - Description of the section</li>\n'
 
         html_index += '</ul>'
